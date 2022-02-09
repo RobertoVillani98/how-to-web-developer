@@ -53,31 +53,38 @@ Ora la base del progetto è completa e il server è up.
 2. Colleghiamo il DB appena creato al nostro progetto Laravel:
 
   - Aprire il file .env
+
   - Modifica i seguenti valori:
+
     * DB_PORT (**inserisci la porta di MySQL indicata da MAMP**)
+
     * DB_DATABASE (**nome del Database che hai creato al punto 2**) :point_up_2:
+
     * DB_USERNAME=root
+
     * DB_PASSWORD=root
+
   - Pulire la cache:
+
     ```
     php artisan config:clear
     ```
 
 ## POPOLARE UN DATABASE
 
-  > Per popolare il nostro Databse abbiamo la possibilità di aggiungere nuove tabelle ( attraverso le [**MIGRATION**](#migration) ) e di aggiungere dati alle tabelle ( attraverso il [**SEEDER**](#seeder) ).
+Per popolare il nostro Databse abbiamo la possibilità di aggiungere nuove tabelle ( attraverso le [**MIGRATION**](#migration) ) e di aggiungere dati alle tabelle ( attraverso il [**SEEDER**](#seeder) ).
 
 ## MIGRATION
 
 Dopo aver creato il DB su [phpmyadmin](sections/mysql.md) possiamo gestirlo direttamente da Laravel attraverso le Migrations. 
 
-***I Comandi vanno lanciati da terminale***
+:point_down: ***I Comandi vanno lanciati da terminale***
 
 * Creare un file migration
   ```
   php artisan make:migration nome_della_migration
   ```
-(*il suo percorso all'interno del nostro progetto sarà database>migrations*)
+  (*il suo percorso all'interno del nostro progetto sarà database>migrations*)
 
 * Creare una tabella:
   ```
@@ -117,9 +124,6 @@ COMANDI PERICOLOSI :warning:
   ```
   php artisan migrate:reset
   ```
-
-
-
 <!-- Inserire una colonna
 Nel file creato con la migration aggiungere:
 Schema::table('users', function (Blueprint $table) {
@@ -139,17 +143,62 @@ Schema::table('users', function (Blueprint $table) {
 }); -->
 ## SEEDER
 
-Creare il Seeder nel progetto
-```php artisan make:seeder NomeTabellaTableSeeder```
-crea il file della migration (database>seeds)
+I seeder servo essenzialmente ad aggiungere dati alle tabelle di un Database.
 
-Controllare nel file config.json se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
+* Creare il Seeder nel progetto:
+
+  ```
+  php artisan make:seeder NomeTabellaTableSeeder
+  ```
+  (*il suo percorso all'interno del nostro progetto sarà database>seeds*)
+
+Una volta creato il seeder, possimo popolare le tabelle richiamando i dati da un file/array esistente oppure attraverso un facker il quale inserire dati random.
+
+* Aggiungiamo i dati da un file implementando il nostro seeder con: 
+
+  ```php
+  use App\Comic;
+  ```
+
+  ```php
+  public function run()
+    {
+         //Richiamo i dati dal file comics.php all'interno della cartella config
+         $comics = config("comics");
+
+         // Cicliamo per popolare la tabella del Database
+         foreach($comics as $comic){
+             $newComic = new Comic();
+             $newComic->title = $comic["title"];
+             $newComic->description = $comic["description"];
+             $newComic->thumb = $comic["thumb"];
+             $newComic->price = $comic["price"];
+             $newComic->series = $comic["series"];
+             $newComic->sale_date = $comic["sale_date"];
+             $newComic->type = $comic["type"];
+             $newComic->save();
+ 
+         }
+    }
+  ```
+:firecracker: ATTENZIONE 	:firecracker:
+```php
+use App\Comic;
+```
+
+```php
+$newComic = new Comic();
+```
+Queste porzioni di codice importa ed utilizza il **model** se non l'hai ancora creato procedi attraverso la sezione [model](#)
+## FAKER
+
+:warning: Controllare nel file **config.json** se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
 ```
 composer remove fzaninotto/faker
 composer require fakerphp/faker
 ```
 
-Popolare la tabella con un faker
+* Popolare la tabella con un faker
 Nel file seeder appena creato aggiungere:
 use Faker\Generator as Faker;
 use App\NomeModel;  // Il seeder è riferito a una tabella, che è collegata a un model
@@ -166,17 +215,11 @@ public function run(Faker $faker)
     $travel->price_children = $faker->numberBetween(10, 200);
     $travel->save();
   }
-
-
 Eseguire il faker per popolare il DB
 
 ```php artisan db:seed --class=NomeTabellaTableSeeder```
 oppure
 ```php artisan db:seed```
-
-
-## FAKER
-
 # INZIALIZZAZIONE STRUTTURA
 
 VIEWS
