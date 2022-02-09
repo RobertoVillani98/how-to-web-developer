@@ -32,10 +32,10 @@ VIEWS
 1. Cartella layouts
 ***resources>view>layouts***
 Ci vanno i template delle pagine
-```
-base.blade.php
-```
-```php
+
+Nome del file: **base.blade.php**
+
+```blade
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,15 +64,11 @@ Ci vanno i pezzi da includere nei layout ed eventualmente in alcune pagine
 
 header.blade.php
 
+```html
 <header>
   <h3>Header</h3>
 </header>
-
-
-
-
-
-
+```
 
 3) Pagine sito
 resources>view
@@ -80,7 +76,7 @@ Pagine del sito nella cartella view
 
 home.blade.php
 
-```php
+```blade
 @extends('layouts.base')
 
 @section('pageTitle')
