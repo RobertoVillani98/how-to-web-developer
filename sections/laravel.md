@@ -1,7 +1,20 @@
-# Laravel
+# LARAVEL
+<p align="center">
+  <img src="https://raw.githubusercontent.com/github/explore/56a826d05cf762b2b50ecbe7d492a839b04f3fbf/topics/laravel/laravel.png" height="150">
+  <br/>
+</p>
+
+## Indice
+
+* [Inizzializzazione del progetto](#inizializzazione-del-progetto)
+* [Inizzializzazione della struttura](#inzializzazione-struttura)
+* [Database](#database)
+* [Creare e gestire tabelle DB da Laravel](#creare-e-gestire-tabelle-db-da-laravel)
+* [Seeder e Faker](#seeder-e-faker)
+* [Altro e Bugfix ](#altro-e-bugfix)
 
 
-### INIT PROGETTO
+## INIZIALIZZAZIONE DEL PROGETTO
 
 1. Creare cartella progetto
 
@@ -25,7 +38,7 @@ npm run watch
 Ora la base del progetto è completa e il server è up.
 
 
-### INIT STRUTTURA
+## INZIALIZZAZIONE STRUTTURA
 
 VIEWS
 
@@ -135,7 +148,7 @@ font-family: Arial, Helvetica, sans-serif;
 
 
 
-### DATABASE
+## DATABASE
 
 0) Accendere MAMP
 
@@ -281,7 +294,7 @@ Rollback di tutto il database
 
 
 
-### SEEDER e FAKER
+## SEEDER e FAKER
 
 Creare il Seeder nel progetto
 ```php artisan make:seeder NomeTabellaTableSeeder```
@@ -318,7 +331,7 @@ Eseguire il faker per popolare il DB
 oppure
 ```php artisan db:seed```
 
-### ALTRO e BUGFIX
+## ALTRO e BUGFIX
 
 WEBPACK.MIX.JS
 
