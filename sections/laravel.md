@@ -7,15 +7,14 @@
 ## Indice
 
 * [Inizzializzazione del progetto](#inizializzazione-del-progetto)
-* [Inizzializzazione della struttura](#inzializzazione-struttura)
+
 * [Database](#database)
   * [Collegare un database](#collegare-un-database)
   * [Popolare un database](#popolare-un-database)
     - [Migration](#migration)
     - [Seeder](#seeder)
       * [Facker](#faker)
-* [Creare e gestire tabelle DB da Laravel](#creare-e-gestire-tabelle-db-da-laravel)
-* [Seeder e Faker](#seeder-e-faker)
+* [Inizzializzazione della struttura](#inzializzazione-struttura)
 * [Altro e Bugfix ](#altro-e-bugfix)
 
 
@@ -25,12 +24,12 @@
 
 Aprire la cartella con VSCode, successivamente aprire il terminale e digirate:
 
-```bash
+```
 composer create-project --prefer-dist laravel/laravel:^7.0 .
 ```
 > Il punto alla fine della stringa in alto va inserito (indica la cartella corrente)
 
-```bash
+```
 php artisan serve
 ```
 
@@ -44,8 +43,8 @@ npm run watch
 
 Ora la base del progetto è completa e il server è up.
 
-## DATABASE
-### COLLEGARE UN DATABASE
+# DATABASE
+## COLLEGARE UN DATABASE
 
 1. Avviare MAMP
 
@@ -64,37 +63,64 @@ Ora la base del progetto è completa e il server è up.
     php artisan config:clear
     ```
 
-### POPOLARE UN DATABASE
+## POPOLARE UN DATABASE
 
-  > Per popolare il nostro Databse abbiamo la possibilità di aggiungere nuove tabelle (attraverso la [**MIGRATION**](#migration)) e di aggiungere dati alle tabelle (attraverso il [**SEEDER**](#seeder)).
+  > Per popolare il nostro Databse abbiamo la possibilità di aggiungere nuove tabelle ( attraverso le [**MIGRATION**](#migration) ) e di aggiungere dati alle tabelle ( attraverso il [**SEEDER**](#seeder) ).
 
-#### MIGRATION
+## MIGRATION
 
-Dopo aver creato il DB su [phpmyadmin] possiamo gestirlo direttamente da Laravel attraverso le Migrations.
-Si lancia un comando da terminale che crea il file della migration (database>migrations), poi posso aprire il file e definire nel particolare cosa voglio che succeda.
+Dopo aver creato il DB su [phpmyadmin](sections/mysql.md) possiamo gestirlo direttamente da Laravel attraverso le Migrations. 
 
-Sintassi generale:
-```php artisan make:migration nome_della_migration```
+***I Comandi vanno lanciati da terminale***
 
-Tutti i file creati con le migrations si trovano in (database>migrations).
+* Creare un file migration
+  ```
+  php artisan make:migration nome_della_migration
+  ```
+(*il suo percorso all'interno del nostro progetto sarà database>migrations*)
 
-Creare Tabella
-Nel terminale lanciare: 
-```php artisan make:migration create_users_table```    //Crea una tabella “users”
+* Creare una tabella:
+  ```
+  php artisan make:migration create_nome-della-tabella_table
+  ```    
+* Caricare la tabella all'interno del Database:
+  ```
+  php artisan migrate
+  ```
+* Ripristinare le modifiche apportate 
+  ```
+  php artisan migrate:rollback
+  ```
+* Modificare una tabella presente nel Database:
+  ```
+  php artisan make:migration update_nome-della-tabella_table --table=nome-della-tabella
+  ```
 
-Aggiornare Tabella
-Nel terminale lanciare:
-```php artisan make:migration update_users_table --table=users```    //Aggiorna la tabella “users”
+:firecracker: ATTENZIONE 	:firecracker:
 
-Eseguire le modifiche
-Nel terminale lanciare:
-```php artisan migrate```
+Per qualsiasi modifica eseguita nell’up di una migration, bisogna sempre eseguire il contrario nel down della stessa migration
 
-Ripristinare le modifiche
-Nel terminale lanciare:
-```php artisan migrate:rollback```
+COMANDI PERICOLOSI :warning:
 
-Inserire una colonna
+* Droppare il database
+  ```
+  php artisan migrate:fresh
+  ```
+
+* Droppare il database e lanciare tutte le migrate
+  ```
+  php artisan migrate:refresh
+  ```
+
+
+* Rollback di tutto il database
+  ```
+  php artisan migrate:reset
+  ```
+
+
+
+<!-- Inserire una colonna
 Nel file creato con la migration aggiungere:
 Schema::table('users', function (Blueprint $table) {
     $table->string('email');
@@ -110,36 +136,48 @@ Modificare una colonna
 ```composer require doctrine/dbal```
 Schema::table('users', function (Blueprint $table) {
     $table->string(“country”, 150)->change();
-});
+}); -->
+## SEEDER
+
+Creare il Seeder nel progetto
+```php artisan make:seeder NomeTabellaTableSeeder```
+crea il file della migration (database>seeds)
+
+Controllare nel file config.json se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
+```
+composer remove fzaninotto/faker
+composer require fakerphp/faker
+```
+
+Popolare la tabella con un faker
+Nel file seeder appena creato aggiungere:
+use Faker\Generator as Faker;
+use App\NomeModel;  // Il seeder è riferito a una tabella, che è collegata a un model
+
+Nel metodo run descrivere come popolare i dati:
+public function run(Faker $faker)
+  {
+    $variabile = new NomeModel(); (es:  $travel = new Travell();)
+    $travel->name = $faker->sentence(3);
+    $travel->destination = $faker->country();
+    $travel->duration = $faker->randomNumber(2, false);
+    $travel->flight = $faker->numberBetween(0, 1);
+    $travel->price_adults = $faker->numberBetween(200, 1000);
+    $travel->price_children = $faker->numberBetween(10, 200);
+    $travel->save();
+  }
 
 
+Eseguire il faker per popolare il DB
 
-ATTENZIONE:
-Per qualsiasi modifica eseguita nell’up di una migration, bisogna sempre eseguire il contrario nel down della stessa migration
-
-
-Comandi utili in caso di problemi:
-
-Droppare il database
-
-```php artisan migrate:fresh```
+```php artisan db:seed --class=NomeTabellaTableSeeder```
+oppure
+```php artisan db:seed```
 
 
-Droppare il database e poi rifare tutte le migrate
+## FAKER
 
-```php artisan migrate:refresh```
-
-
-Rollback di tutto il database
-
-```php artisan migrate:reset```
-
-
-#### SEEDER
-
-##### FAKER
-
-## INZIALIZZAZIONE STRUTTURA
+# INZIALIZZAZIONE STRUTTURA
 
 VIEWS
 
@@ -310,50 +348,6 @@ ES:
         <li>{{ $movie[‘title’] }}</li>
     @endforeach
 </ul>
-
-
-
-### CREARE E GESTIRE TABELLE DB DA LARAVEL
-
-
-
-
-## SEEDER e FAKER
-
-Creare il Seeder nel progetto
-```php artisan make:seeder NomeTabellaTableSeeder```
-crea il file della migration (database>seeds)
-
-Controllare nel file config.json se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
-```
-composer remove fzaninotto/faker
-composer require fakerphp/faker
-```
-
-Popolare la tabella con un faker
-Nel file seeder appena creato aggiungere:
-use Faker\Generator as Faker;
-use App\NomeModel;  // Il seeder è riferito a una tabella, che è collegata a un model
-
-Nel metodo run descrivere come popolare i dati:
-public function run(Faker $faker)
-  {
-    $variabile = new NomeModel(); (es:  $travel = new Travell();)
-    $travel->name = $faker->sentence(3);
-    $travel->destination = $faker->country();
-    $travel->duration = $faker->randomNumber(2, false);
-    $travel->flight = $faker->numberBetween(0, 1);
-    $travel->price_adults = $faker->numberBetween(200, 1000);
-    $travel->price_children = $faker->numberBetween(10, 200);
-    $travel->save();
-  }
-
-
-Eseguire il faker per popolare il DB
-
-```php artisan db:seed --class=NomeTabellaTableSeeder```
-oppure
-```php artisan db:seed```
 
 ## ALTRO e BUGFIX
 
