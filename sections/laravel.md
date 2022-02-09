@@ -9,6 +9,10 @@
 * [Inizzializzazione del progetto](#inizializzazione-del-progetto)
 * [Inizzializzazione della struttura](#inzializzazione-struttura)
 * [Database](#database)
+  * [Collegare un database](#collegare-un-database)
+  * [Popolare un database](#popolare-un-database)
+    - [Migration](#migration)
+    - [Seeder](#seeder)
 * [Creare e gestire tabelle DB da Laravel](#creare-e-gestire-tabelle-db-da-laravel)
 * [Seeder e Faker](#seeder-e-faker)
 * [Altro e Bugfix ](#altro-e-bugfix)
@@ -16,27 +20,54 @@
 
 ## INIZIALIZZAZIONE DEL PROGETTO
 
-1. Creare cartella progetto
+1. Creare una cartella che conterrà il progetto
 
-2. Artisan
+Aprire la cartella con VSCode, successivamente aprire il terminale e digirate:
 
-Aprirla con VSCode, aprire terminale
-```
+```bash
 composer create-project --prefer-dist laravel/laravel:^7.0 .
+```
+> Il punto alla fine della stringa in alto va inserito (indica la cartella corrente)
 
+```bash
 php artisan serve
 ```
 
-3. NPM
+<!-- 3. NPM
 
-Aprire nuovo terminale
+Aprire un nuovo terminale
 ```
 npm install
 npm run watch
-```
+``` -->
 
 Ora la base del progetto è completa e il server è up.
 
+## DATABASE
+### COLLEGARE UN DATABASE
+
+1. Avviare MAMP
+
+2. Creare un database da collegare al progetto [(*Se non sai come fare visualizza la guida MySQL*)](sections/mysql.md)
+
+2. Colleghiamo il DB appena creato al nostro progetto Laravel:
+
+  - Aprire il file .env
+  - Modifica i seguenti valori:
+    * DB_PORT (**inserisci la porta di MySQL indicata da MAMP**)
+    * DB_DATABASE (**nome del Database che hai creato al punto 2 di questa sezione**)
+    * DB_USERNAME=root
+    * DB_PASSWORD=root
+  - Pulire la cache:
+    ```
+    php artisan config:clear
+    ```
+
+### POPOLARE UN DATABASE
+
+#### MIGRATION
+
+#### SEEDER
 
 ## INZIALIZZAZIONE STRUTTURA
 
@@ -148,22 +179,8 @@ font-family: Arial, Helvetica, sans-serif;
 
 
 
-## DATABASE
 
-0) Accendere MAMP
-
-1) Comunicare a Laravel i dati corretti del DB
-
-  - Fermare php artisan (ctrl+c nel terminale dove è stato lanciato)
-  - Aprire file .env
-  - Cambiare il valore di:
-    DB_PORT (mamp porta *vedi porta MySQL su MAMP*)
-    DB_DATABASE (nome del database, es: movies)
-    DB_USERNAME=root
-    DB_PASSWORD=root
-  - Pulire la cache: ```php artisan config:clear```
-  - ```php artisan serve```
-
+  
 
 2) Creare Controller
 
