@@ -13,6 +13,7 @@
   * [Popolare un database](#popolare-un-database)
     - [Migration](#migration)
     - [Seeder](#seeder)
+      * [Facker](#faker)
 * [Creare e gestire tabelle DB da Laravel](#creare-e-gestire-tabelle-db-da-laravel)
 * [Seeder e Faker](#seeder-e-faker)
 * [Altro e Bugfix ](#altro-e-bugfix)
@@ -55,7 +56,7 @@ Ora la base del progetto è completa e il server è up.
   - Aprire il file .env
   - Modifica i seguenti valori:
     * DB_PORT (**inserisci la porta di MySQL indicata da MAMP**)
-    * DB_DATABASE (**nome del Database che hai creato al punto 2 di questa sezione**)
+    * DB_DATABASE (**nome del Database che hai creato al punto 2**) :point_up_2:
     * DB_USERNAME=root
     * DB_PASSWORD=root
   - Pulire la cache:
@@ -65,9 +66,78 @@ Ora la base del progetto è completa e il server è up.
 
 ### POPOLARE UN DATABASE
 
+  > Per popolare il nostro Databse abbiamo la possibilità di aggiungere nuove tabelle (attraverso la [**MIGRATION**](#migration)) e di aggiungere dati alle tabelle (attraverso il [**SEEDER**](#seeder)).
+
 #### MIGRATION
 
+Dopo aver creato il DB su [phpmyadmin] possiamo gestirlo direttamente da Laravel attraverso le Migrations.
+Si lancia un comando da terminale che crea il file della migration (database>migrations), poi posso aprire il file e definire nel particolare cosa voglio che succeda.
+
+Sintassi generale:
+```php artisan make:migration nome_della_migration```
+
+Tutti i file creati con le migrations si trovano in (database>migrations).
+
+Creare Tabella
+Nel terminale lanciare: 
+```php artisan make:migration create_users_table```    //Crea una tabella “users”
+
+Aggiornare Tabella
+Nel terminale lanciare:
+```php artisan make:migration update_users_table --table=users```    //Aggiorna la tabella “users”
+
+Eseguire le modifiche
+Nel terminale lanciare:
+```php artisan migrate```
+
+Ripristinare le modifiche
+Nel terminale lanciare:
+```php artisan migrate:rollback```
+
+Inserire una colonna
+Nel file creato con la migration aggiungere:
+Schema::table('users', function (Blueprint $table) {
+    $table->string('email');
+});
+
+Rimuovere una colonna
+Nel file creato con la migration aggiungere:
+Schema::table('users', function (Blueprint $table) {
+    $table->dropColumn(‘lastname’);
+});
+
+Modificare una colonna
+```composer require doctrine/dbal```
+Schema::table('users', function (Blueprint $table) {
+    $table->string(“country”, 150)->change();
+});
+
+
+
+ATTENZIONE:
+Per qualsiasi modifica eseguita nell’up di una migration, bisogna sempre eseguire il contrario nel down della stessa migration
+
+
+Comandi utili in caso di problemi:
+
+Droppare il database
+
+```php artisan migrate:fresh```
+
+
+Droppare il database e poi rifare tutte le migrate
+
+```php artisan migrate:refresh```
+
+
+Rollback di tutto il database
+
+```php artisan migrate:reset```
+
+
 #### SEEDER
+
+##### FAKER
 
 ## INZIALIZZAZIONE STRUTTURA
 
@@ -245,69 +315,6 @@ ES:
 
 ### CREARE E GESTIRE TABELLE DB DA LARAVEL
 
-Dopo aver creato il DB su phpmyadmin possiamo gestirlo direttamente da Laravel attraverso le Migrations.
-Si lancia un comando da terminale che crea il file della migration (database>migrations), poi posso aprire il file e definire nel particolare cosa voglio che succeda.
-
-Sintassi generale:
-```php artisan make:migration nome_della_migration```
-
-Tutti i file creati con le migrations si trovano in (database>migrations).
-
-Creare Tabella
-Nel terminale lanciare: 
-```php artisan make:migration create_users_table```    //Crea una tabella “users”
-
-Aggiornare Tabella
-Nel terminale lanciare:
-```php artisan make:migration update_users_table --table=users```    //Aggiorna la tabella “users”
-
-Eseguire le modifiche
-Nel terminale lanciare:
-```php artisan migrate```
-
-Ripristinare le modifiche
-Nel terminale lanciare:
-```php artisan migrate:rollback```
-
-Inserire una colonna
-Nel file creato con la migration aggiungere:
-Schema::table('users', function (Blueprint $table) {
-    $table->string('email');
-});
-
-Rimuovere una colonna
-Nel file creato con la migration aggiungere:
-Schema::table('users', function (Blueprint $table) {
-    $table->dropColumn(‘lastname’);
-});
-
-Modificare una colonna
-```composer require doctrine/dbal```
-Schema::table('users', function (Blueprint $table) {
-    $table->string(“country”, 150)->change();
-});
-
-
-
-ATTENZIONE:
-Per qualsiasi modifica eseguita nell’up di una migration, bisogna sempre eseguire il contrario nel down della stessa migration
-
-
-Comandi utili in caso di problemi:
-
-Droppare il database
-
-```php artisan migrate:fresh```
-
-
-Droppare il database e poi rifare tutte le migrate
-
-```php artisan migrate:refresh```
-
-
-Rollback di tutto il database
-
-```php artisan migrate:reset```
 
 
 
