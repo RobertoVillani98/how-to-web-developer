@@ -189,7 +189,7 @@ use App\Comic;
 ```php
 $newComic = new Comic();
 ```
-Queste porzioni di codice importa ed utilizza il **model** se non l'hai ancora creato procedi attraverso la sezione [model](#)
+Queste porzioni di codice importano ed utilizzano il **model** se non l'hai ancora creato procedi attraverso la sezione [model](#)
 ## FAKER
 
 :warning: Controllare nel file **config.json** se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
