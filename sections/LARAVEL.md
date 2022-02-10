@@ -6,7 +6,7 @@
 
 ## Indice
 
-* [Inizzializzazione del progetto](#inizializzazione-del-progetto)
+* [Inizializzazione del progetto](#inizializzazione-del-progetto)
 
 * [Database](#database)
   * [Collegare un database](#collegare-un-database)
@@ -14,7 +14,7 @@
     - [Migration](#migration)
     - [Seeder](#seeder)
       * [Faker](#faker)
-* [Inizzializzazione della struttura](#inzializzazione-struttura)
+* [Inizializzazione della struttura](#inzializzazione-struttura)
 * [Altro e Bugfix ](#altro-e-bugfix)
 
 
@@ -62,13 +62,13 @@ Ora la base del progetto è completa e il server è up.
 
   - Modifica i seguenti valori:
 
-    * DB_PORT (**inserisci la porta di MySQL indicata da MAMP**)
+    * ```DB_PORT``` (**inserisci la porta di MySQL indicata da MAMP**)
 
-    * DB_DATABASE (**nome del Database che hai creato al punto 2**) :point_up_2:
+    * ```DB_DATABASE``` (**nome del Database che hai creato al punto 2**) :point_up_2:
 
-    * DB_USERNAME=root
+    * ```DB_USERNAME=root```
 
-    * DB_PASSWORD=root
+    * ```DB_PASSWORD=root```
 
   - Pulire la cache:
 
@@ -265,7 +265,7 @@ php artisan db:seed --class=NomeTabellaTableSeeder
 * In alto nel seeder: use App\NomeModel;
 
 * Nel metodo run() del seeder:
-```
+```php
 $comics = config("comics");
 
 foreach ($comics as $comic) {
@@ -281,7 +281,7 @@ foreach ($comics as $comic) {
       $newComic->price = $comic["price"];
       //
       $newComic->save();
-
+}
 ```
 * Eseguire il seeder per popolare il DB
 ```
