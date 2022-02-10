@@ -1,39 +1,432 @@
-# Laravel
+# LARAVEL
+<p align="center">
+  <img src="https://raw.githubusercontent.com/github/explore/56a826d05cf762b2b50ecbe7d492a839b04f3fbf/topics/laravel/laravel.png" height="150">
+  <br/>
+</p>
+
+## Indice
+
+* [Inizzializzazione del progetto](#inizializzazione-del-progetto)
+
+* [Database](#database)
+  * [Collegare un database](#collegare-un-database)
+  * [Popolare un database](#popolare-un-database)
+    - [Migration](#migration)
+    - [Seeder](#seeder)
+      * [Faker](#faker)
+* [Inizzializzazione della struttura](#inzializzazione-struttura)
+* [Altro e Bugfix ](#altro-e-bugfix)
 
 
-### INIT PROGETTO
+## INIZIALIZZAZIONE DEL PROGETTO
 
-1. Creare cartella progetto
+1. Creare una cartella che conterrà il progetto
 
-2. Artisan
+Aprire la cartella con VSCode, successivamente aprire il terminale e digirate:
 
-Aprirla con VSCode, aprire terminale
 ```
 composer create-project --prefer-dist laravel/laravel:^7.0 .
+```
+> Il punto alla fine della stringa in alto va inserito (indica la cartella corrente)
 
+```
 php artisan serve
 ```
 
-3. NPM
+<!-- 3. NPM
 
-Aprire nuovo terminale
+Aprire un nuovo terminale
 ```
 npm install
 npm run watch
-```
+``` -->
 
 Ora la base del progetto è completa e il server è up.
 
+<br>
+<br>
 
-### INIT STRUTTURA
+# DATABASE
+<br>
 
-VIEWS
+## COLLEGARE UN DATABASE
+<br>
 
-1. Cartella layouts
+1. Avviare MAMP
+
+2. Creare un database da collegare al progetto [(*Se non sai come fare visualizza la guida MySQL*)](sections/mysql.md)
+
+2. Colleghiamo il DB appena creato al nostro progetto Laravel:
+
+  - Aprire il file .env
+
+  - Modifica i seguenti valori:
+
+    * DB_PORT (**inserisci la porta di MySQL indicata da MAMP**)
+
+    * DB_DATABASE (**nome del Database che hai creato al punto 2**) :point_up_2:
+
+    * DB_USERNAME=root
+
+    * DB_PASSWORD=root
+
+  - Pulire la cache:
+
+    ```
+    php artisan config:clear
+    ```
+
+<br>
+<br>
+
+## POPOLARE UN DATABASE
+<br>
+
+Per popolare il nostro Databse abbiamo la possibilità di aggiungere nuove tabelle ( attraverso le [**MIGRATION**](#migration) ) e di aggiungere dati alle tabelle ( attraverso il [**SEEDER**](#seeder) ).
+
+<br>
+<br>
+
+## MIGRATION
+<br>
+
+Dopo aver creato il DB su [phpmyadmin](sections/mysql.md) possiamo gestirlo direttamente da Laravel attraverso le Migrations. 
+
+:point_down: ***I Comandi vanno lanciati da terminale***
+
+* Creare un file migration
+  ```
+  php artisan make:migration nome_della_migration
+  ```
+  (*il suo percorso all'interno del nostro progetto sarà database>migrations*)
+
+* Creare una tabella:
+  ```
+  php artisan make:migration create_nome-della-tabella_table
+  ```    
+* Caricare la tabella all'interno del Database:
+  ```
+  php artisan migrate
+  ```
+* Ripristinare le modifiche apportate 
+  ```
+  php artisan migrate:rollback
+  ```
+* Modificare una tabella presente nel Database:
+  ```
+  php artisan make:migration update_nome-della-tabella_table --table=nome-della-tabella
+  ```
+
+:firecracker: ATTENZIONE 	:firecracker:
+
+Per qualsiasi modifica eseguita nell’up di una migration, bisogna sempre eseguire il contrario nel down della stessa migration
+
+COMANDI PERICOLOSI :warning:
+
+* Droppare il database
+  ```
+  php artisan migrate:fresh
+  ```
+
+* Droppare il database e lanciare tutte le migrate
+  ```
+  php artisan migrate:refresh
+  ```
+
+
+* Rollback di tutto il database
+  ```
+  php artisan migrate:reset
+  ```
+<!-- Inserire una colonna
+Nel file creato con la migration aggiungere:
+Schema::table('users', function (Blueprint $table) {
+    $table->string('email');
+});
+
+Rimuovere una colonna
+Nel file creato con la migration aggiungere:
+Schema::table('users', function (Blueprint $table) {
+    $table->dropColumn(‘lastname’);
+});
+
+Modificare una colonna
+```composer require doctrine/dbal```
+Schema::table('users', function (Blueprint $table) {
+    $table->string(“country”, 150)->change();
+}); -->
+<br>
+<br>
+
+## SEEDER
+<br>
+
+I seeder servono a popolare le tabelle di un Database.
+
+* Creare il Seeder nel progetto:
+
+  ```
+  php artisan make:seeder NomeTabellaTableSeeder
+  ```
+  (*il suo percorso all'interno del nostro progetto sarà database>seeds*)
+
+Una volta creato il seeder, possimo popolare le tabelle richiamando i dati da un file/array esistente oppure attraverso un facker il quale inserire dati random.
+
+* Aggiungiamo i dati da un file implementando il nostro seeder con: 
+
+  ```php
+  use App\Comic;
+  ```
+
+  ```php
+  public function run()
+    {
+         //Richiamo i dati dal file comics.php all'interno della cartella config
+         $comics = config("comics");
+
+         // Cicliamo per popolare la tabella del Database
+         foreach($comics as $comic){
+             $newComic = new Comic();
+             $newComic->title = $comic["title"];
+             $newComic->description = $comic["description"];
+             $newComic->thumb = $comic["thumb"];
+             $newComic->price = $comic["price"];
+             $newComic->series = $comic["series"];
+             $newComic->sale_date = $comic["sale_date"];
+             $newComic->type = $comic["type"];
+             $newComic->save();
+ 
+         }
+    }
+  ```
+:firecracker: ATTENZIONE 	:firecracker:
+```php
+use App\Comic;
+```
+
+```php
+$newComic = new Comic();
+```
+Queste porzioni di codice importano ed utilizzano il **model** se non l'hai ancora creato procedi attraverso la sezione [model](#)
+
+<br>
+<br>
+
+## POPOLARE UNA TABELLA CON FAKER
+<br>
+
+* Cartella layouts
 ***resources>view>layouts***
 Ci vanno i template delle pagine
 
 Nome del file: **base.blade.php**
+:warning: Controllare nel file **config.json** se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
+```
+composer remove fzaninotto/faker
+composer require fakerphp/faker
+```
+
+* Popolare la tabella con un faker
+Nel file seeder appena creato aggiungere:
+```php
+use Faker\Generator as Faker;
+use App\NomeModel;  // Il seeder è riferito a una tabella, che è collegata a un model
+```
+
+* Nel metodo run descrivere come popolare i dati:
+```php
+public function run(Faker $faker)
+  {
+    $variabile = new NomeModel(); (es:  $travel = new Travell();)
+    $travel->name = $faker->sentence(3);
+    $travel->destination = $faker->country();
+    $travel->duration = $faker->randomNumber(2, false);
+    $travel->flight = $faker->numberBetween(0, 1);
+    $travel->price_adults = $faker->numberBetween(200, 1000);
+    $travel->price_children = $faker->numberBetween(10, 200);
+    $travel->save();
+  }
+```
+* Eseguire il seeder per popolare il DB
+```
+php artisan db:seed --class=NomeTabellaTableSeeder
+```
+
+<br>
+<br>
+
+## POPOLARE UNA TABELLA CON UN FILE PHP
+<br>
+
+* Spostare nella cartella config il file php che contiene i dati
+
+* Creare seeder
+
+* In alto nel seeder: use App\NomeModel;
+
+* Nel metodo run() del seeder:
+```
+$comics = config("comics");
+
+foreach ($comics as $comic) {
+      $newComic = new Comic();
+      //
+      $variabile -> nomeColonna = $elemento[“proprietà”];
+      $newComic->title = $comic["title"];
+      $newComic->series = $comic["series"];
+      $newComic->type = $comic["type"];
+      $newComic->description =$comic["description"];
+      $newComic->link = $comic["thumb"];
+      $newComic->sale_date = $comic["sale_date"];
+      $newComic->price = $comic["price"];
+      //
+      $newComic->save();
+
+```
+* Eseguire il seeder per popolare il DB
+```
+php artisan db:seed --class=NomeTabellaTableSeeder
+```
+<br>
+<br>
+<br>
+
+# INZIALIZZAZIONE STRUTTURA
+<br>
+
+## 1. Creare Model
+
+  - Lanciare questo comando: *[nome pascal case singolare]* (viene creato sparso in ***App***)
+  ```
+  php artisan make:model NomeModel
+  ```
+  Esempio: ```php artisan make:model Movie```
+
+<br>
+<br>
+
+## 2. Creare Controller
+
+- Lanciare questo comando: *[nome pascal case singolare]* (viene creato in ***App>Http>Controllers***)
+```
+php artisan make:controller NomeControllerController
+``` 
+
+
+Esempio:
+```php artisan make:controller MovieController```
+
+<br>
+
+- Dichiarare l'uso del Model nel Controller inserendo in alto nel Controller: 
+```php
+use App\NomeModel;
+```
+
+- Creare metodo index che ritorna la view della pagina
+```php
+public function index()
+{
+  return view("home");
+}
+```
+<br>
+<br>
+
+## 2.1. Creare Controller (Resource Controller) *[alternativa]*
+<br>
+
+Architettura REST: Associare a delle URI standard dei metodi standard.
+
+- Creare Resource Controller: 
+```
+php artisan make:controller --resource NomeController
+```
+
+- Guardare la lista delle routes: 
+```
+php artisan route:list
+```
+
+- In alto nel nuovo controller: 
+```
+use App\NomeModel;
+```
+
+- Nella cartella views creare una sottocartella con il nome dell’entità su cui stiamo lavorando (es: ***comics***), in cui creare una pagina **index.blade.php**
+
+<br>
+
+### - Metodo index(): Mostra tutti i risultati
+<br>
+
+Nel metodo index() del controller:
+```php
+$variabile = NomeModel::all();
+return view("nomecartella.index", compact("variabile"));
+```
+
+Esempio:
+```php
+$comics = Comic::all();
+return view("comics.index", compact("comics"));
+```
+<br>
+
+### - Metodo show(): Mostra il risultato dato un parametro dinamico (id)
+<br>
+
+Nel metodo show() del controller:
+```php
+$variabile = NomeModel::find($id);
+return view("nomecartella.show", compact("variabile"));
+```
+Esempio:
+```php
+$comic = Comic::find($id);
+return view("comics.show", compact("comic"));
+```
+
+<br>
+<br>
+
+## 3. Routes
+<br>
+
+***routes>web.php***<br>
+* Contiene tutte le Routes che rimandano ai controller delle nostre pagine del sito
+
+Esempio di una Route Generica:
+```php
+Route::get('/indirizzo_pagina', “PaginaController@index”);
+```
+
+Esempio della Route "Home":
+```php
+Route::get('/', “HomeController@index”);
+```
+<br>
+
+## 3.1. Routes con Resource Controller *[alternativa]*
+<br>
+
+***routes>web.php***<br>
+```php
+Route::resource("comics", "ComicController");
+```
+<br>
+<br>
+
+## 4. Views
+<br>
+
+* Cartella layouts:
+***resources>view>layouts***<br>
+Contiene i template delle pagine
+
+<br>
+
+**base.blade.php**
 
 ```blade
 <!DOCTYPE html>
@@ -56,25 +449,30 @@ Nome del file: **base.blade.php**
 </body>
 </html>
 ```
+<br>
 
+* Cartella partials:
+***resources>view>partials***<br>
+Contiene i pezzi da includere nei layout ed eventualmente in alcune pagine
 
-2. Cartella partials
-***resources>view>partials***
-Ci vanno i pezzi da includere nei layout ed eventualmente in alcune pagine
-
-header.blade.php
+<br>
 
 ```html
+**header.blade.php**
+```
 <header>
   <h3>Header</h3>
 </header>
 ```
 
-3) Pagine sito
-resources>view
+
+* Pagine sito: 
+***resources>view***<br>
 Pagine del sito nella cartella view
 
-home.blade.php
+<br>
+
+**home.blade.php**
 
 ```blade
 @extends('layouts.base')
@@ -92,253 +490,124 @@ Home
 
 
 
-SCSS
+## Scss
 
-1) Cartella partials
-resources>sass>partials
+* Creare cartella ***partials***<br>
+***resources>sass>partials***
 
-- Creare file scss: _reset.scss, _common.scss, _typography.scss
-- Se presenti creare anche: _header.scss, _footer.scss, _mainHome.scss
+* Creare file scss: ***_reset.scss, _common.scss, _typography.scss***
+* Se presenti creare anche: ***_header.scss, _footer.scss, _mainHome.scss***
 
-2) Importare tutto nel file app.scss
+* Importare tutto nel file ***app.scss***
+```scss
 @import "partials/reset";
 @import "partials/common";
 @import "partials/typography";
 @import "partials/header";
 @import "partials/mainHome";
 @import "partials/footer";
+```
+<br>
 
-
-3) Esempio scss di reset, common e typography
+### Esempi scss di reset, common e typography
 
 Reset
+```scss
 * {
 box-sizing: border-box;
 margin: 0;
 padding: 0;
 }
+```
 Common
+```scss
 .container {
 max-width: 1300px;
 min-width: 950px;
 margin: 0 auto;
 }
+```
 Typography
+```scss
 body {
 font-family: Arial, Helvetica, sans-serif;
 }
+```
+<br>
 
+### Installare Bootstrap su Laravel:
+<br>
 
+```
+composer require laravel/ui:^2.4
+```
+```
+php artisan ui bootstrap
+```
+```
+npm install
+```
+```
+npm run dev
+```
+```
+npm run watch
+```
 
+Includere il css di bootstrap nei nostri layout.
+Nel head dell’html aggiungere: 
+```html
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+```
 
-### DATABASE
+<br>
+<br>
 
-0) Accendere MAMP
+# ALTRO e BUGFIX
+<br>
 
-1) Comunicare a Laravel i dati corretti del DB
+## Query
+<br>
 
-  - Fermare php artisan (ctrl+c nel terminale dove è stato lanciato)
-  - Aprire file .env
-  - Cambiare il valore di:
-    DB_PORT (mamp porta *vedi porta MySQL su MAMP*)
-    DB_DATABASE (nome del database, es: movies)
-    DB_USERNAME=root
-    DB_PASSWORD=root
-  - Pulire la cache: ```php artisan config:clear```
-  - ```php artisan serve```
-
-
-2) Creare Controller
-
-  - ```php artisan make:controller NomeController``` [pascal case singolare]
-(viene creato in App>Http>Controllers)
-
-Esempio (DB movies):
-  - ```php artisan make:controller MovieController```
-
-  - Creare metodo index che ritorna la view della pagina
-  public function index()
-  {
-    return view("home");
-  }
-
-
-3) Routes
-
-routes>web.php
-Contiene tutte le Routes che rimandano ai controller delle nostre pagine del sito
-Esempio di una Route Generica:
-Route::get('/indirizzo_pagina', “PaginaController@index”);
-
-Esempio della Route "Home":
-Route::get('/', “HomeController@index”);
-
-
-4) Creare Model
-
-  - Lanciare comando: ```php artisan make:model Movie``` [pascal case singolare] (viene creato sparso in App)
-  - Dichiarare l'uso del Model nel Controller (inserire nel controller: use App\NomeModel;)
-
-
-
-5) La prima Query
-
+### La prima query
 - Chiediamo al database tutti i dati: nella funzione index del Controller dichiariamo una variabile in cui inseriamo tutti i dati del database, e poi la returniamo insieme alla view.
 
+```php
 public function index()
 {
     $data = NomeModel::all();
     return view("home", compact(“data”));
 }
+```
 
-ES con movies: 
+Esempio con movies: 
+
+```php
 public function index()
 {
     $movies = Movie::all();
     return view("home", compact(“movies”));
 }
+```
 
-- A questo punto nella pagina blade.php di riferimento (ES: home.blade.php) possiamo usare la variabile (ES: $movies) come se fosse lì, e conterrà tutti i dati del DB.
+- A questo punto nella pagina blade.php di riferimento (Es: home.blade.php) possiamo usare la variabile (Es: $movies) come se fosse lì, e conterrà tutti i dati del DB.
 
-ES:
+Esempio:
+```blade
 <ul>
     @foreach ($movies as $movie)
         <li>{{ $movie[‘title’] }}</li>
     @endforeach
 </ul>
-
-
-
-### CREARE E GESTIRE TABELLE DB DA LARAVEL
-
-Dopo aver creato il DB su phpmyadmin possiamo gestirlo direttamente da Laravel attraverso le Migrations.
-Si lancia un comando da terminale che crea il file della migration (database>migrations), poi posso aprire il file e definire nel particolare cosa voglio che succeda.
-
-Sintassi generale:
-```php artisan make:migration nome_della_migration```
-
-Tutti i file creati con le migrations si trovano in (database>migrations).
-
-Creare Tabella
-Nel terminale lanciare: 
-```php artisan make:migration create_users_table```    //Crea una tabella “users”
-
-Aggiornare Tabella
-Nel terminale lanciare:
-```php artisan make:migration update_users_table --table=users```    //Aggiorna la tabella “users”
-
-Eseguire le modifiche
-Nel terminale lanciare:
-```php artisan migrate```
-
-Ripristinare le modifiche
-Nel terminale lanciare:
-```php artisan migrate:rollback```
-
-Inserire una colonna
-Nel file creato con la migration aggiungere:
-Schema::table('users', function (Blueprint $table) {
-    $table->string('email');
-});
-
-Rimuovere una colonna
-Nel file creato con la migration aggiungere:
-Schema::table('users', function (Blueprint $table) {
-    $table->dropColumn(‘lastname’);
-});
-
-Modificare una colonna
-```composer require doctrine/dbal```
-Schema::table('users', function (Blueprint $table) {
-    $table->string(“country”, 150)->change();
-});
-
-
-
-ATTENZIONE:
-Per qualsiasi modifica eseguita nell’up di una migration, bisogna sempre eseguire il contrario nel down della stessa migration
-
-
-Comandi utili in caso di problemi:
-
-Droppare il database
-
-```php artisan migrate:fresh```
-
-
-Droppare il database e poi rifare tutte le migrate
-
-```php artisan migrate:refresh```
-
-
-Rollback di tutto il database
-
-```php artisan migrate:reset```
-
-
-
-### SEEDER e FAKER
-
-Creare il Seeder nel progetto
-```php artisan make:seeder NomeTabellaTableSeeder```
-crea il file della migration (database>seeds)
-
-Controllare nel file config.json se stiamo usando fzaninotto o fakerphp, nel caso stessimo usando fzaninotto rimuoverla e installare fakerphp.
 ```
-composer remove fzaninotto/faker
-composer require fakerphp/faker
-```
+<br>
 
-Popolare la tabella con un faker
-Nel file seeder appena creato aggiungere:
-use Faker\Generator as Faker;
-use App\NomeModel;  // Il seeder è riferito a una tabella, che è collegata a un model
+### Alcune query
+<br>
 
-Nel metodo run descrivere come popolare i dati:
-public function run(Faker $faker)
-  {
-    $variabile = new NomeModel(); (es:  $travel = new Travell();)
-    $travel->name = $faker->sentence(3);
-    $travel->destination = $faker->country();
-    $travel->duration = $faker->randomNumber(2, false);
-    $travel->flight = $faker->numberBetween(0, 1);
-    $travel->price_adults = $faker->numberBetween(200, 1000);
-    $travel->price_children = $faker->numberBetween(10, 200);
-    $travel->save();
-  }
+Sono da inserire nelle funzioni del controller, per esempio index.
 
-
-Eseguire il faker per popolare il DB
-
-```php artisan db:seed --class=NomeTabellaTableSeeder```
-oppure
-```php artisan db:seed```
-
-### ALTRO e BUGFIX
-
-WEBPACK.MIX.JS
-
-ATTENZIONE: Quando si modifica il webpack riavviare ```npm run watch```
-
-1) Aggiungere l’option alla fine per non modificare il percorso delle background image (../img/eccecc)
-
-mix.js('resources/js/app.js', 'public/js')
-.sass('resources/sass/app.scss', 'public/css')
-.options({
-processCssUrls: false
-});
-
-
-Problemi con nomi tabelle plurale
-
-Si può specificare il nome “personalizzato” delle tabelle quando il plurale non coincide con il singolare + lettera ‘s’:
-Nel Model, all’interno della classe aggiungere:
-	protected $table = ‘people’;
-
-
-Alcune query
-Da inserire nelle funzioni del controller, per esempio index.
-
+```php
 - $movies = App\NomeModel::where(‘active’, 1)->get();   // ACTIVE == 1
 
 - $movies = App\NomeModel::where(‘active’, ‘!=’, 1)->get();   // ACTIVE != 1
@@ -354,15 +623,48 @@ Da inserire nelle funzioni del controller, per esempio index.
 
 - $users = User::all();
   $users = $users->find($id);    //Trovare per id
+```
+<br>
+<br>
 
+## webpack.mix.js
+<br>
 
+ATTENZIONE: Quando si modifica il webpack riavviare ```npm run watch```
 
-Salvare un dato
+* Aggiungere l’option alla fine per non modificare il percorso delle background image (../img/eccecc)
+
+```js
+mix.js('resources/js/app.js', 'public/js')
+.sass('resources/sass/app.scss', 'public/css')
+.options({
+processCssUrls: false
+});
+```
+<br>
+<br>
+
+## Problemi con nomi tabelle plurale
+<br>
+
+Si può specificare il nome “personalizzato” delle tabelle quando il plurale non coincide con il singolare + lettera ‘s’:
+Nel Model, all’interno della classe aggiungere:
+```
+protected $table = ‘people’;
+```
+<br>
+<br>
+
+## Salvare un dato
+<br>
+
 Nel seeder, nel metodo run():
 
+```php
 $auto = new Auto();
 $auto->marca = ‘Fiat’;
 $auto->modello = ‘Punto’;
 $auto->targa = ‘DA788CK’; 
 
 $auto -> save();
+```

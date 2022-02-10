@@ -4,28 +4,11 @@
 
 ## Indice
 
-* [Html](#html)
-* [CSS](#css)
-* [Javascript](#javascript)
-* [Vue.js](#vue)
-    * [Installazione](#installazione)
-    * [Creazione di un nuovo progetto](#creazione-di-un-nuovo-progetto)
-
-* [PHP](#php)
-* [MySQL](#mysql)
-* [Laravel](#laravel)
-  * [Init Progetto](#init-progetto)
-  * [Init Struttura](#init-struttura)
-  * [Database](#database)
-  * [Creare e gestire Tabelle da Laravel](#creare-e-gestire-tabelle-db-da-laravel)
-  * [Seeder e Faker](#seeder-e-faker)
-  * [Altro e Bugfix](#altro-e-bugfix)
-* [Git](#git)
-
-## Html
-## CSS
-## Javascript
-## Vue
-## PHP
-## MySQL
-## Laravel
+* [Html - ***in produzione***](sections/html-css.md)
+* [CSS - ***in produzione***](sections/html-css.md)
+* [Javascript - ***in produzione***](sections/javascript.md)
+* [Vue.js - ***in produzione***](sections/vue-js.md)
+* [PHP - ***in produzione***](sections/php.md)
+* [MySQL - ***in produzione***](sections/mysql.md)
+* [LARAVEL - ***in produzione***](sections/laravel.md)
+* [Git - ***in produzione***](sections/git.md)
