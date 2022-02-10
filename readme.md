@@ -1,4 +1,4 @@
-# HOW TO: WEB DEVELOPER
+# WEB DEVELOPER HELPER
 
 > In questa repo sono **organizzate** le principali risorse che ti aiuteranno a creare ed implementare i tuoi progetti.
 
