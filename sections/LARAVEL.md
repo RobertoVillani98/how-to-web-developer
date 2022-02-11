@@ -18,7 +18,13 @@
   * [Creare Model](#creare-model)
   * [Creare Controller](#creare-controller)
   * [Routes](#routes)
+  * [Views](#views)
+  * [Scss](#scss)
 * [Altro e Bugfix ](#altro-e-bugfix)
+  * [Query](#query)
+  * [webpack.mix.js](#webpack.mix.js)
+  * [Nomi tabelle plurale](#nomi-tabelle-plurale)
+  * [Salvare un dato](#salvare-un-dato)
 
 
 ## INIZIALIZZAZIONE DEL PROGETTO
@@ -336,7 +342,7 @@ public function index()
 <br>
 <br>
 
-## 2.1. Creare Controller (Resource Controller) *[alternativa]*
+## Creare Controller (Resource Controller) *[alternativa]*
 <br>
 
 Architettura REST: Associare a delle URI standard dei metodi standard.
@@ -410,7 +416,7 @@ Route::get('/', “HomeController@index”);
 ```
 <br>
 
-## 3.1. Routes con Resource Controller *[alternativa]*
+## Routes con Resource Controller *[alternativa]*
 <br>
 
 ***routes>web.php***<br>
@@ -420,7 +426,7 @@ Route::resource("comics", "ComicController");
 <br>
 <br>
 
-## 4. Views
+## Views
 <br>
 
 * Cartella layouts:
@@ -647,7 +653,7 @@ processCssUrls: false
 <br>
 <br>
 
-## Problemi con nomi tabelle plurale
+## Nomi tabelle plurale
 <br>
 
 Si può specificare il nome “personalizzato” delle tabelle quando il plurale non coincide con il singolare + lettera ‘s’:
