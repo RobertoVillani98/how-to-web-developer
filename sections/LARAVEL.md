@@ -15,6 +15,9 @@
     - [Seeder](#seeder)
       * [Faker](#faker)
 * [Inizializzazione della struttura](#inzializzazione-struttura)
+  * [Creare Model](#creare-model)
+  * [Creare Controller](#creare-controller)
+  * [Routes](#routes)
 * [Altro e Bugfix ](#altro-e-bugfix)
 
 
@@ -294,7 +297,7 @@ php artisan db:seed --class=NomeTabellaTableSeeder
 # INZIALIZZAZIONE STRUTTURA
 <br>
 
-## 1. Creare Model
+## Creare Model
 
   - Lanciare questo comando: *[nome pascal case singolare]* (viene creato sparso in ***App***)
   ```
@@ -305,7 +308,7 @@ php artisan db:seed --class=NomeTabellaTableSeeder
 <br>
 <br>
 
-## 2. Creare Controller
+## Creare Controller
 
 - Lanciare questo comando: *[nome pascal case singolare]* (viene creato in ***App>Http>Controllers***)
 ```
@@ -390,7 +393,7 @@ return view("comics.show", compact("comic"));
 <br>
 <br>
 
-## 3. Routes
+## Routes
 <br>
 
 ***routes>web.php***<br>
