@@ -4,11 +4,10 @@
 
 ## Indice
 
-* [Html - ***in produzione***](sections/html-css.md)
-* [CSS - ***in produzione***](sections/html-css.md)
-* [Javascript - ***in produzione***](sections/javascript.md)
-* [Vue.js - ***in produzione***](sections/vue-js.md)
-* [PHP - ***in produzione***](sections/php.md)
-* [MySQL - ***in produzione***](sections/mysql.md)
-* [LARAVEL - ***in produzione***](sections/laravel.md)
-* [Git - ***in produzione***](sections/git.md)
+* [Html e CSS - ***in produzione***](sections/HTML-CSS.md)
+* [Javascript - ***in produzione***](sections/JAVASCRIPT.md)
+* [Vue.js - ***in produzione***](sections/VUE-JS.md)
+* [PHP - ***in produzione***](sections/PHP.md)
+* [MySQL - ***in produzione***](sections/MYSQL.md)
+* [LARAVEL - ***in produzione***](sections/LARAVEL.md)
+* [Git - ***in produzione***](sections/GIT.md)
