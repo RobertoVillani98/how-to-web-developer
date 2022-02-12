@@ -15,7 +15,16 @@
     - [Seeder](#seeder)
       * [Faker](#faker)
 * [Inizializzazione della struttura](#inzializzazione-struttura)
+  * [Creare Model](#creare-model)
+  * [Creare Controller](#creare-controller)
+  * [Routes](#routes)
+  * [Views](#views)
+  * [Scss](#scss)
 * [Altro e Bugfix ](#altro-e-bugfix)
+  * [Query](#query)
+  * [webpack.mix.js](#webpack.mix.js)
+  * [Nomi tabelle plurale](#nomi-tabelle-plurale)
+  * [Salvare un dato](#salvare-un-dato)
 
 
 ## INIZIALIZZAZIONE DEL PROGETTO
@@ -294,7 +303,7 @@ php artisan db:seed --class=NomeTabellaTableSeeder
 # INZIALIZZAZIONE STRUTTURA
 <br>
 
-## 1. Creare Model
+## Creare Model
 
   - Lanciare questo comando: *[nome pascal case singolare]* (viene creato sparso in ***App***)
   ```
@@ -305,7 +314,7 @@ php artisan db:seed --class=NomeTabellaTableSeeder
 <br>
 <br>
 
-## 2. Creare Controller
+## Creare Controller
 
 - Lanciare questo comando: *[nome pascal case singolare]* (viene creato in ***App>Http>Controllers***)
 ```
@@ -333,7 +342,7 @@ public function index()
 <br>
 <br>
 
-## 2.1. Creare Controller (Resource Controller) *[alternativa]*
+## Creare Controller (Resource Controller) *[alternativa]*
 <br>
 
 Architettura REST: Associare a delle URI standard dei metodi standard.
@@ -390,7 +399,7 @@ return view("comics.show", compact("comic"));
 <br>
 <br>
 
-## 3. Routes
+## Routes
 <br>
 
 ***routes>web.php***<br>
@@ -407,7 +416,7 @@ Route::get('/', “HomeController@index”);
 ```
 <br>
 
-## 3.1. Routes con Resource Controller *[alternativa]*
+## Routes con Resource Controller *[alternativa]*
 <br>
 
 ***routes>web.php***<br>
@@ -417,7 +426,7 @@ Route::resource("comics", "ComicController");
 <br>
 <br>
 
-## 4. Views
+## Views
 <br>
 
 * Cartella layouts:
@@ -644,7 +653,7 @@ processCssUrls: false
 <br>
 <br>
 
-## Problemi con nomi tabelle plurale
+## Nomi tabelle plurale
 <br>
 
 Si può specificare il nome “personalizzato” delle tabelle quando il plurale non coincide con il singolare + lettera ‘s’:
