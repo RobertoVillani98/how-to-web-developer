@@ -14,6 +14,7 @@
 * [Funzioni](#Funzioni)
 * [Utilities](#Utilities)
 
+<br>
 
 ## Variabili
 
@@ -31,6 +32,25 @@ let anni = 30;
 * **const** viene utilizzato per dichiare le cosiddette "costanti" ed il valore assegnato non verrà mai modificato in tutto il nostro applicativo;
 * **let** viene utilizzato per dichiarare dei valori variabili, in modo da poter modificare il valore assegnato anche durante l'esecuzione dell'applicativo;
 * esiste un terzo tipo di variabile, **var**, non più utilizzato ma che potremmo trovare in vecchi applicativi, sostituito dal moderno e più efficiente **let**.
+
+```javascript
+// Corretto
+const nome = "Antonio";
+let anni = 30;
+
+anni = 31;
+```
+La variabile **anni** è dichiarata come **let**, quindi il suo valore è modificabile.
+
+```javascript
+// Sbagliato
+const nome = "Antonio";
+let anni = 30;
+
+nome = "Luca";
+```
+La variabile **nome** è dichiarata come **const**, quindi il suo valore non è modificabile.
+
 
 <br>
 
@@ -53,6 +73,10 @@ const 1Lavoro = "Web Developer";
 const #Lavoro = "Web Developer";
 const function = "Funzione per l'addizione";
 ```
+
+<br>
+
+
 
 
 
