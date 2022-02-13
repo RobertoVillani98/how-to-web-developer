@@ -10,6 +10,7 @@
 * [Variabili](#variabili)
   * [Tipi di variabili](#tipi-di-variabili)
   * [Nomi da assegnare alle variabili](#nomi-da-assegnare-alle-variabili)
+  * [Tipi di dati](#tipi-di-dati)
 * [Operazioni](#Operazioni)
 * [Funzioni](#Funzioni)
 * [Utilities](#Utilities)
@@ -22,7 +23,7 @@
 
 ### Tipi di variabili
 
-In Javascript abbiamo diversi modi per salvare, scrivere o manipolare dei dati attraverso delle variabili. Prima di poter svolgere qualsiasi operazione con esse vanno dichiarate e per farlo abbiamo due tipi di variabili:
+In JavaScript abbiamo diversi modi per salvare, scrivere o manipolare dei dati attraverso delle variabili. Prima di poter svolgere qualsiasi operazione con esse vanno dichiarate e per farlo abbiamo due tipi di variabili:
 
 ```javascript
 const animale = "cane";
@@ -76,6 +77,54 @@ const function = "Funzione per l'addizione";
 
 <br>
 
+### Tipi di dati
+
+Come in ogni linguaggio di programmazione anche in JavaScript possiamo avere diversi tipi di dati da assegnare alle nostre variabili:
+
+* Number:
+```javascript
+let anni = 30;
+```
+* String:
+```javascript
+const nome = "Luca";
+const nome = 'Luca';
+const nome = `Luca`;
+```
+* Boolean:
+```javascript
+let luceAccesa = true;
+luceAccesa = false;
+```
+* Undefined:
+```javascript
+let anniUtente = undefined;
+```
+* Null:
+```javascript
+let utentiRegistrati = null;
+```
+* Array:
+```javascript
+const listaUtenti = ["Luca", "Paolo", "Antonio"];
+const numeriPari = [6, 18, 4, 2, 10];
+```
+* Object:
+```javascript
+const informazioniUtente = {
+    nome: "Luca",
+    cognome: "Rossi",
+    anni: 30
+};
+```
+* Function:
+```javascript
+function addizione() {
+    const primoAddendo = 2;
+    const secondoAddendo = 3;
+    return primoAddendo + secondoAddendo;
+}
+```
 
 
 
