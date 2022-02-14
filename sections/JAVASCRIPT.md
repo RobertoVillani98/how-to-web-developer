@@ -23,7 +23,7 @@
 
 ### Tipi di variabili
 
-In JavaScript abbiamo diversi modi per salvare, scrivere o manipolare dei dati attraverso delle variabili. Prima di poter svolgere qualsiasi operazione con esse vanno dichiarate e per farlo abbiamo due tipi di variabili:
+In JavaScript abbiamo diversi modi per salvare, scrivere o manipolare dei dati attraverso delle variabili. Prima di poter svolgere qualsiasi operazione con esse, le variabili vanno dichiarate e per farlo abbiamo due tipi di variabili:
 
 ```javascript
 const animale = "cane";
@@ -79,7 +79,8 @@ const function = "Funzione per l'addizione";
 
 ### Tipi di dati
 
-Come in ogni linguaggio di programmazione anche in JavaScript possiamo avere diversi tipi di dati da assegnare alle nostre variabili:
+A differenza dei linguaggi tipizzati, in JavaScript si possono solo dichiarare variabili dei due tipi appena citati (let e const), ma ovviamente anche in questo linguaggio possiamo assegnare diversi tipi di valori alle nostre variabili.
+
 
 * Number:
 ```javascript
@@ -126,6 +127,7 @@ function addizione() {
 }
 ```
 
+ATTENZIONE: A differenza dei linguaggi tipizzati, in JavaScript dovrà essere molto attento il programmatore ad utilizzare coerentemente le variabili che ha dichiarato. Per esempio non verrà generato automaticamente un errore se si somma un numero a una stringa, sarà il programmatore a doversi rendere conto dell'errore nel risultato prodotto dall'operazione.
 
 
 
